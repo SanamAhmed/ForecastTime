@@ -25,6 +25,9 @@ Main Code by Chris Spooner
 
 School and Activity Icons by Madison Neal
 
+Weather Data from OpenWeatherMap
+https://openweathermap.org
+
 Weather Code by gregoiresage<br>
 https://github.com/gregoiresage/fitbit-weather
 

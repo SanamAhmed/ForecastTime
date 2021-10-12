@@ -80,6 +80,28 @@ function drawWeatherUpdatingMsg(){
   weatherImage = ""; 
 }
 
+function selectClockDisplay(){   //PRS
+  let clockLabel = document.getElementById("clockLabel");
+  let bigclockLabel = document.getElementById("bigclockLabel");
+  let hrLabel = document.getElementById("hrLabel");
+  let hrIcon = document.getElementById("hrIcon");
+//  console.log("Time Format is ", settings.timeFormat)
+  if (settings.timeFormat === 3) {
+    clockLabel.style.display = "none"
+    hrLabel.style.display = "none"
+    hrIcon.style.display = "none"
+    bigclockLabel.style.display = "inline"
+    hrm.stop();
+  } else {
+    clockLabel.style.display = "inline"
+    hrLabel.style.display = "inline"
+    hrIcon.style.display = "inline"
+    bigclockLabel.style.display = "none"
+    hrm.start();
+  }
+  updateClock();
+}
+
 messaging.peerSocket.onmessage = evt => {
   console.log(`App received: ${JSON.stringify(evt)}`);
   //if settings[evt.data.key] != 
@@ -105,6 +127,7 @@ messaging.peerSocket.onmessage = evt => {
     if(settings.timeFormat != Number(JSON.parse(evt.data.newValue).selected)){
       console.log(JSON.parse(evt.data.newValue).selected)
       settings.timeFormat = Number(JSON.parse(evt.data.newValue).selected);
+      selectClockDisplay();  //PRS
       //updateClock();
     }
   }
@@ -360,7 +383,7 @@ function updateClock(caller) {
   //console.log("TICK from " + caller);
 
   // Clock view
-  let clockLabel = document.getElementById("clockLabel");
+  let clockLabel = (settings.timeFormat === 3) ? document.getElementById("bigclockLabel") : document.getElementById("clockLabel");  //PRS
   let dateLabel = document.getElementById("dateLabel");
     
 
@@ -375,7 +398,7 @@ function updateClock(caller) {
   let strings = allStrings.getStrings(myLocale, "date");
   
   //console.log(preferences.clockDisplay);
-  if (preferences.clockDisplay == "12h" && !settings.twentyFour){
+  if (preferences.clockDisplay == "12h" && !settings.twentyFour && settings.timeFormat != 3){  //PRS
     if (hours > 12){
       ampm = " pm";
       hours -= 12;
@@ -505,16 +528,16 @@ function updateClockData() {
 function updateStatsData(){
   if (isBatteryAlert != wasBatteryAlert){
     if (isBatteryAlert){
-      let stepStatsLabel = document.getElementById("stepStatsLabel");
+      let stepStatsLabel = document.getElementById("stepStatsLabel");
       let stepsStatsImage = document.getElementById("stepsStatsImage");
       stepsStatsImage.x = 44
       stepStatsLabel.x = 65
     } else {
-      let stepStatsLabel = document.getElementById("stepStatsLabel");
-      let stepsStatsImage = document.getElementById("stepsStatsImage");
-      stepsStatsImage.x = 0
-      stepStatsLabel.x = 25
-    }
+      let stepStatsLabel = document.getElementById("stepStatsLabel");
+      let stepsStatsImage = document.getElementById("stepsStatsImage");
+      stepsStatsImage.x = 0
+      stepStatsLabel.x = 25
+    }
   }
   if (show == "stats" && display.on){
     let strings = allStrings.getStrings(myLocale, "stats");
@@ -1238,6 +1261,7 @@ applySettings();
 
 hrm.start();
 hrm.onerror = function() { console.log("--------------------------------------------------HR err"); } 
+selectClockDisplay();  //PRS
 fetchWeather();
 
 //updateClockData();

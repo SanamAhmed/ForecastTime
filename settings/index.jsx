@@ -40,7 +40,8 @@ function mySettings(props) {
           options={[
             {name: strings["12:00 am (only 12 hour time)"]},
             {name: "12:00"},
-            {name: "12:00:00"}
+            {name: "12:00:00"},
+            {name: "Large Font"} //PRS
           ]}
           />
       </Section>

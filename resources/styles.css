@@ -54,6 +54,17 @@
   fill: white;
 }
 
+#bigclockLabel {
+  font-size: 120;
+  font-family: Colfax-Medium;
+  text-length: 32;
+  text-anchor: middle;
+  x: 50%;
+  y: 54%;
+  fill: white;
+  display: none;
+}
+
 .data {
   font-size: 25;
   font-family: Colfax-Regular;
